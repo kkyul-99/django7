@@ -71,3 +71,10 @@
 
 #-----------------------------------------------------
 # cmd창에서 ctrl+c 입력 시 서버종료
+
+# admin 생성하는 법
+# 1) terminal에 python manage.py makemigrations 입력
+# 2) terminal에 python manage.py migrate 입력
+# 3) python manage.py createsuperuser 입력
+# 4) 사용자 이름 / 이메일 주소 / Password 설정
+# -> 설정까지 끝나면 /admin/ 페이지 생성됨
