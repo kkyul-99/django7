@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mn$la69uo7=p%ujl+0p$750ty5f-#*qq0t$rvg+%b*5!i70k55'
+SECRET_KEY = 'django-insecure-_y5vffoor*y6ip#6cs5y3!r1dylveeg)t2i2_kz4xg$b24pj3p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -28,9 +28,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'member',
-    'board',
-    'comment',
-    'stuscore',
 ]
 
 MIDDLEWARE = [
@@ -45,13 +42,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'smproject.urls'
 
-# 템플릿 경로
-TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
