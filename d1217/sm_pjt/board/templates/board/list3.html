@@ -12,40 +12,33 @@
 {% block body-block %}
   <!-- 개별영역: Board List -->
   <div class="board-container">
-    <div class="board-title">공지사항</div>
+    <div class="board-title">박스오피스 API</div>
     <table class="board-table">
       <colgroup>
         <col width='10%'>
-        <col width='*'>
         <col width='15%'>
-        <col width='20%'>
         <col width='15%'>
+        <col width='15%'>
+        <col width='*%'>
       </colgroup>
       <thead>
         <tr>
           <th>번호</th>
+          <th>순위</th>
           <th>제목</th>
-          <th>작성자</th>
-          <th>작성일</th>
-          <th>조회수</th>
+          <th>개봉일</th>
+          <th>상영횟수</th>
         </tr>
       </thead>
       <tbody>
         {% if list %}
-          {% for b in list  %}
+          {% for m in list  %}
             <tr>
-              <td>{{b.bno}}</td>
-              <td class="title">
-                <a href="/board/view/{{b.bno}}/">
-                  {% for i in ''|rjust:b.bindent %}
-                  <img src='/static/images/icon_reply.292031fe.png' style='width:10px;margin-left:2px;' >
-                  {% endfor %}
-                  {{b.btitle}}
-                </a>
-              </td>
-              <td>{{b.member.name}}</td>
-              <td class="date">{{b.bdate|date:'Y-m-d H:i'}}</td>
-              <td class="views">{{b.bhit}}</td>
+              <td>{{m.rnum}}</td>
+              <td class="title">{{m.rank}}</td>
+              <td>{{m.movieNm}}</td>
+              <td class="date">{{m.openDt}}</td>
+              <td class="views">{{m.showCnt}}</td>
             </tr>
           {% endfor %}
         {% else %}

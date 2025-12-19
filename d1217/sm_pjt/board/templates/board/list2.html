@@ -12,40 +12,35 @@
 {% block body-block %}
   <!-- 개별영역: Board List -->
   <div class="board-container">
-    <div class="board-title">공지사항</div>
+    <div class="board-title">공공데이터 API</div>
     <table class="board-table">
       <colgroup>
         <col width='10%'>
-        <col width='*'>
         <col width='15%'>
-        <col width='20%'>
         <col width='15%'>
+        <col width='15%'>
+        <col width='*%'>
       </colgroup>
       <thead>
         <tr>
           <th>번호</th>
           <th>제목</th>
-          <th>작성자</th>
-          <th>작성일</th>
-          <th>조회수</th>
+          <th>작가</th>
+          <th>촬영일</th>
+          <th>이미지</th>
         </tr>
       </thead>
       <tbody>
         {% if list %}
-          {% for b in list  %}
+          {% for g in list  %}
             <tr>
-              <td>{{b.bno}}</td>
-              <td class="title">
-                <a href="/board/view/{{b.bno}}/">
-                  {% for i in ''|rjust:b.bindent %}
-                  <img src='/static/images/icon_reply.292031fe.png' style='width:10px;margin-left:2px;' >
-                  {% endfor %}
-                  {{b.btitle}}
-                </a>
+              <td>{{g.galContentId}}</td>
+              <td class="title">{{g.galTitle}}</td>
+              <td>{{g.galPhotographer}}</td>
+              <td class="date">{{g.galPhotographyMonth}}</td>
+              <td class="views">
+                <img src='{{g.galWebImageUrl}}' style='width:200px;'>
               </td>
-              <td>{{b.member.name}}</td>
-              <td class="date">{{b.bdate|date:'Y-m-d H:i'}}</td>
-              <td class="views">{{b.bhit}}</td>
             </tr>
           {% endfor %}
         {% else %}

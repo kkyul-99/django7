@@ -4,6 +4,9 @@ from comment.models import Comment
 from member.models import Member
 from django.db.models import F,Q
 from django.core.paginator import Paginator
+import requests
+import json
+import pprint
 
 # 차트 그리기
 def chart(request):
@@ -100,6 +103,36 @@ def list(request):
     
     context = {'list':list_qs,'page':page}
     return render(request,'board/list.html',context)
+
+# 공공데이터 리스트 - api
+def list2(request):
+    # 공공데이터 api 접속
+    public_key = 'b402c9dc953dda99fdf4e05eaf7db8cc47686b872648ad7beb33ae538b63c549'
+    # page_no = request.GET.get('page_no')
+    page_no = 1
+    url = f'https://apis.data.go.kr/B551011/PhotoGalleryService1/galleryList1?serviceKey={public_key}&numOfRows=10&pageNo={page_no}&MobileOS=ETC&MobileApp=AppTest&arrange=A&_type=json'
+    # 공공데이터 정보 가져오기 - url에 있는 모든 태그 가져옴.
+    rel = requests.get(url)
+    # 파일변환: 문자열 -> json 타입 변경
+    json_data = json.loads(rel.text)
+    p_list = json_data['response']['body']['items']['item']
+    print('json 데이터-----: ',p_list[0])
+    context = {'result':'성공','list':p_list}
+    return render(request,'board/list2.html',context)
+
+# 공공데이터 리스트 - api
+def list3(request):
+    # 공공데이터 api 접속
+    public_key = 'a4155721284f858b94c86da4ed52b2ce'
+    url = f'http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key={public_key}&targetDt=20251201'
+    # 공공데이터 정보 가져오기 - url에 있는 모든 태그 가져옴.
+    rel = requests.get(url)
+    # 파일변환: 문자열 -> json 타입 변경
+    json_data = json.loads(rel.text)
+    p_list = json_data['boxOfficeResult']['weeklyBoxOfficeList']
+    print('json 데이터-----: ',p_list[0])
+    context = {'result':'성공','list':p_list}
+    return render(request,'board/list3.html',context)
 
 # 게시판 글쓰기
 def write(request):
