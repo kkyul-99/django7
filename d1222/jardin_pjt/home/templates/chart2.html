@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Document</title>
+    <style>
+        #chart_back{width: 800px; height: 600px; border:1px solid #000;}
+    </style>
+</head>
+<body>
+    <div>
+        <h2>차트그리기</h2>
+        <input type="text" name="m_data" id="m_data">
+        <button type="button" onclick="chartBtn()">가져오기</button>
+    </div>
+
+    <div id='chart_back'>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        function chartBtn(){
+            alert("데이터를 가져와 차트를 그립니다.")
+            let input_data = $('#m_data').val();
+
+            $.ajax({
+                url:'/chart_json2/',
+                type:'GET',
+                dataType:'json',
+                headers: {'X-CSRFTOKEN':'{{csrf_token}}'},
+                data:{'input_data':input_data},
+                success: function(data){
+                    alert('성공');
+                    console.log('views 데이터: '+data.list_data);
+
+                    // 데이터 초기화
+                    d_data = [];
+                    label_data = [];
+
+                    // 데이터 추가
+                    for (var i=0; i < data.list_data.length; i++){
+                        d_data.push(data.list_data[i].cdata);
+                        label_data.push(data.list_data[i].cyear);
+                    }
+
+                    // const d_data = data.dd_data;
+                    // const label_data = data.ll_data;
+
+                    const ctx = document.getElementById('myChart');
+
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                        labels: label_data,
+                        datasets: [{
+                            label: '# of Votes',
+                            data: d_data,
+                            borderWidth: 1
+                        }]
+                        },
+                        options: {
+                        scales: {
+                            y: {
+                            beginAtZero: true
+                            }
+                        }
+                        }
+                    });
+                },
+                error: function(){
+                    alert('실패');
+                }
+
+            });// ajax
+
+        }//chartBtn()
+    </script>
+    
+</body>
+</html>
