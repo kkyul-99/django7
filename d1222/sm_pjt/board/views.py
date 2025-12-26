@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect
 from board.models import Board
-from comment.models import Comment
 from member.models import Member
 from django.db.models import F,Q
 from django.core.paginator import Paginator
@@ -12,11 +11,12 @@ from . import func_api
 def chart(request):
     return render(request,'board/chart.html')
 
-# 공공데이터api
+# 공공데이터 api
 def list2(request):
     public_key = func_api.public_api()
     context = {'result':'성공'}
-    return render(request,'board/list2.html')
+    return render(request,'board/list2.html',context)
+
 
 # 게시판 답글달기
 def reply(request,bno):
@@ -43,8 +43,10 @@ def reply(request,bno):
         Board.objects.create(btitle=btitle,bcontent=bcontent,member=member,bgroup=bgroup,\
             bstep=bstep+1,bindent=bindent+1,bfile=bfile)
         
+        
         context = {'flag':1}
         return render(request,'board/reply.html',context)
+
 
 # 게시판 수정
 def update(request,bno):
@@ -77,25 +79,27 @@ def delete(request,bno):
 
 # 게시판 상세보기 - 해당 하단댓글도 함께 가져올수 있음.
 def view(request,bno):
-    # 게시글 가져오기
     page = request.GET.get('page')
     search = request.GET.get('search')
+    # 게시글 가져오기
     qs = Board.objects.filter(bno=bno)
-    # 하단댓글
+    
     # 조회수 1증가
     # 조회를 한후 조회된 데이터들을 update,delete : F
-    qs.update(bhit = F('bhit') + 1)
+    qs.update(bhit = F('bhit') + 1 )
     context = {'board':qs[0],'search':search,'page':page}
     return render(request,'board/view.html',context)
 
 # 게시판 상세보기 - 해당 하단댓글도 함께 가져올수 있음.
 def view2(request,bno):
-    print("bno: ",bno)
+    print("bno : ",bno)
     # 게시글 가져오기
     qs = Board.objects.filter(bno=bno)
     # 하단댓글
-    context = {'board':qs[0]}
+    c_qs = Comment.objects.filter(board=qs[0]).order_by('-cno')
+    context = {'board':qs[0],'clist':c_qs}
     return render(request,'board/view2.html',context)
+
 
 # 게시판 리스트
 def list(request):
@@ -111,14 +115,13 @@ def list(request):
     else:
         qs = Board.objects.filter(btitle__icontains = search)
         # and 조건
-        # qs = Board.objects.filter(btitle__icontains = '답글', bcontent__icontations = '답글')
+        # qs = Board.objects.filter(btitle__icontains = '답글',bcontent__icontains='답글')
         # or 조건
         # qs = Board.objects.filter(Q(btitle__icontains = '답글')|Q(bcontent__icontains = '답글'))
         # 하단 넘버링 (qs,10) -> 1페이지 10개씩
         paginator = Paginator(qs,10)  # 101 -> 11
         # 현재페이지 넘김.
         list_qs = paginator.get_page(page) # 1page -> 게시글 10개를 전달
-    
     context = {'list':list_qs,'page':page,'search':search}
     return render(request,'board/list.html',context)
 
@@ -138,3 +141,4 @@ def write(request):
         qs.save()
         context = {'flag':'1'}
         return render(request,'board/write.html',context)
+        

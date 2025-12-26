@@ -29,7 +29,6 @@ INSTALLED_APPS = [
     'home',
     'member',
     'board',
-    'comment',
     'stuscore',
 ]
 
@@ -45,7 +44,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'smproject.urls'
 
-# 템플릿 경로
+# 탬플릿 경로
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 
 TEMPLATES = [

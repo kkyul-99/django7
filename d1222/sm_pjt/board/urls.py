@@ -10,6 +10,6 @@ urlpatterns = [
     path('delete/<int:bno>/', views.delete, name='delete'),
     path('update/<int:bno>/', views.update, name='update'),
     path('reply/<int:bno>/', views.reply, name='reply'),
-    # 차트 그리기
+    # 차트그리기
     path('chart/', views.chart, name='chart'),
 ]

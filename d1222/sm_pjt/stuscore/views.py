@@ -9,5 +9,5 @@ def slist(request):
         no = int(request.POST.get('no'))
         qs = Stuscore.objects.all().order_by('sno')[no:(no+6)]
         list_qs = list(qs.values())  # QuerySet → 리스트
-        context = {'result': 'success', 'list': list_qs}
+        context = {'result': 'success','list':list_qs}
         return JsonResponse(context)

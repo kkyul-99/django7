@@ -1,6 +1,7 @@
 from django.db import models
 from member.models import Member
 
+# Create your models here.
 # sno,id,kor,eng,math,total,avg,sdate
 
 class Stuscore(models.Model):
@@ -12,5 +13,7 @@ class Stuscore(models.Model):
     total = models.IntegerField(default=0)
     avg = models.FloatField(default=0)
     sdate = models.DateTimeField(auto_now=True)
+    
     def __str__(self):
         return f'{self.sno},{self.member.id},{self.kor},{self.total},{self.avg},{self.sdate}'
+    

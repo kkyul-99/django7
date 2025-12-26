@@ -269,14 +269,15 @@ $(document).ready(function() {
 											success:function(data){
 												alert('성공');
 												if(data.result == '사용가능'){
-													document.getElementById('id_check').innerHTML='<span class="mvalign black">* 아이디 사용가능</span>';
+													document.getElementById('id_check').innerHTML = '<span class="mvalign black">* 아이디 사용가능</span>';
 												}else{
-													document.getElementById('id_check').innerHTML='<span class="mvalign orange">* 아이디가 존재합니다.</span>';
+													document.getElementById('id_check').innerHTML = '<span class="mvalign orange">* 아이디가 존재합니다.</span>';
 												}
 											},
 											error:function(){
 												alert('실패');
 											}
+
 										});//ajax
 									}//idChkBtn
 								</script>
@@ -285,10 +286,13 @@ $(document).ready(function() {
 									<td>
 										<ul class="pta">
 											<li class="r10"><input type="text" class="w134" name='id' id='id' /></li>
-											<li><a class="nbtnMini" onclick="idChkBtn()">중복확인</a>
+											<li>
+												<a class="nbtnMini" onclick='idChkBtn()'>중복확인</a>
 											</li>
 											<li class="pt5">
 												<span id='id_check'>
+													
+													
 												</span>
 												<br>
 												<span class="mvalign">첫 글자는 영문으로 4~16자 까지 가능, 영문, 숫자와 특수기호(_)만 사용 가능</span>
